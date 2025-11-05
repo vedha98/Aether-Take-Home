@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-family: sans-serif;
+}
+
+#upload-container, #loader {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#fileInput { margin-top: 10px; }
+
+#loader {
+  display: none;
+  font-size: 1.5em;
+  color: #0f0;
+}
+
+canvas {
+  display: block;
+}
+#tools-menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#tools-menu button {
+  padding: 5px 10px;
+  font-size: 14px;
+}
