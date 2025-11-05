@@ -13,9 +13,10 @@ import { Line2 } from 'three/addons/lines/Line2.js';
 export function createPolygonTool(scene, camera, renderer, groundPlane) {
     const points = [];
     let line = null;
-
+    let startPoint = null;
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+    const dotGroup = new THREE.Group();
     function onMouseMove(event) {
         // Convert mouse to normalized device coordinates
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -26,31 +27,56 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         if (intersection.length < 1) return; // No intersection
 
         const hoverPoint = intersection[0].point.clone();
-        if (line) scene.remove(line);
-        if (points.length > 1) {
+        if (line){
+            scene.remove(line);
+            scene.remove(dotGroup);
+            dotGroup.clear();
+        }
+        if (points.length > 0) {
+            const vertices = points.flatMap(p => [p.x, 0.001, p.z]).concat([hoverPoint.x, 0.001, hoverPoint.z]);
+            // add lines to show user the polygon being drawn
             const geometry = new LineGeometry();
-            geometry.setPositions(points.flatMap(p => [p.x, 0.001, p.z]).concat([hoverPoint.x, 0.001, hoverPoint.z]));
+            geometry.setPositions(vertices);
             line = new Line2(
                 geometry,
                 new LineMaterial(
                     {
-                        color: 'crimson',
-                        linewidth: 3,
-                        opacity: 0.1,
+                        color: '#7ea8a6',
+                        linewidth: 5,
+                        opacity: 0.4,
                         alphaToCoverage: false,
-                        depthTest: false
+                        depthTest: false,
+                        transparent: true
                     }
                 ))
             line.computeLineDistances();
-            console.log("asdding to the scent");
-
             scene.add(line);
+            points.forEach(point => {
+                const dotGeometry = new THREE.SphereGeometry(0.07, 16, 16);
+                const dotMaterial = new THREE.MeshBasicMaterial({ color: "#ebbd34", opacity: 1, depthTest: false, transparent: true });
+                const dotMesh = new THREE.Mesh(dotGeometry, dotMaterial);
+                dotMesh.position.copy(point);
+                dotMesh.renderOrder = 999;
+                dotGroup.add(dotMesh);
+            });
+
+            scene.add(dotGroup);
         }
     }
     function onClick(event) {
         raycaster.setFromCamera(mouse, camera);
         const intersection = raycaster.intersectObject(groundPlane);
-        if (!intersection) return; // No intersection
+        if (intersection.length < 1) return; // No intersection
+
+
+        if (points.length === 0) {
+            startPoint = intersection[0].point.clone();
+        } else if (points.length > 2) {
+            const distToStart = intersection[0].point.distanceTo(startPoint);
+            if (distToStart < 0.5) {
+                return finishPolygon();
+            }
+        }
         points.push(intersection[0].point.clone());
     }
 
@@ -62,7 +88,11 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         scene.add(buildingMesh);
 
         // Clear temp line and points
-        if (line) scene.remove(line);
+        if (line){
+            scene.remove(line);
+            scene.remove(dotGroup);
+            dotGroup.clear();
+        }
         points.length = 0;
         line = null;
         disable();

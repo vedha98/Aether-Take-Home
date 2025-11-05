@@ -17,25 +17,25 @@ export function createBuildingGeometry(points, height, groundPlane) {
     const buildingMesh = new THREE.Mesh(
         geometry,
         new THREE.MeshBasicMaterial({
-            color: 0x00ff88,
+            color: "#6b6b6b",
             opacity: 1
         })
     );
 
     const groundSize = 20;
-    const topVertices = points.map(p => new THREE.Vector3(p.x, height, p.z));
+    const topVertices = points.map(p => new THREE.Vector3(p.x, height + 0.001, p.z));
     const topGeometry = new ConvexGeometry(topVertices);
 
     topGeometry.attributes.position.array.forEach((val, i) => {
         if (i % 3 === 0) {
             // x coordinate
             const x = val;
-            uvs.push(((x + groundSize / 2) / groundSize) );
+            uvs.push(((x + groundSize / 2) / groundSize));
         }
         if (i % 3 === 2) {
             // z coordinate
             const z = val;
-            uvs.push(1-((z + groundSize / 2) / groundSize));
+            uvs.push(1 - ((z + groundSize / 2) / groundSize));
         }
     });
     topGeometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
