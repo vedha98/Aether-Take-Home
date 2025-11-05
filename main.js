@@ -9,7 +9,7 @@ import { API_KEY } from './config.js';
 const uploadContainer = document.getElementById('upload-container');
 const loader = document.getElementById('loader');
 const fileInput = document.getElementById('fileInput');
-
+const toolsUI = document.getElementById('tools-menu');
 setupEventHandlers(fileInput, uploadContainer, loader, startScene);
 let currentTool = null;
 async function startScene() {
@@ -40,9 +40,8 @@ async function startScene() {
     // Build scene
     const groundPlane = await setupGroundPlane(mainScene, texture);
     // Setup tools
+    toolsUI.style.display = 'flex';
     setupTools(mainScene, camera, renderer, currentTool, groundPlane);
-
-
 
     function animate() {
         requestAnimationFrame(animate);

@@ -43,7 +43,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
                     {
                         color: '#7ea8a6',
                         linewidth: 5,
-                        opacity: 0.4,
+                        opacity: 0.8,
                         alphaToCoverage: false,
                         depthTest: false,
                         transparent: true
@@ -62,6 +62,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
 
             scene.add(dotGroup);
         }
+        
     }
     function onClick(event) {
         raycaster.setFromCamera(mouse, camera);
