@@ -1,5 +1,9 @@
 import * as THREE from 'three';
 
+/**
+ * Create and configure a Three.js WebGL renderer
+ * @returns {THREE.WebGLRenderer} Configured renderer
+ */
 export function createRenderer() {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);

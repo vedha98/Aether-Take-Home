@@ -6,10 +6,12 @@ import { getHeightFromInfoBox } from '../Utils/InterfaceUItils.js';
 import { Building } from '../Geometry/Building.js';
 
 /**
- * Polygon drawing tool
+ * Create a tool to draw polygons on the ground plane
  * @param {THREE.Scene} scene
  * @param {THREE.Camera} camera
  * @param {THREE.Renderer} renderer
+ * @param {THREE.Mesh} groundPlane
+ * @return {Object} Tool with enable and disable methods
  */
 export function createPolygonTool(scene, camera, renderer, groundPlane) {
     const points = [];

@@ -1,6 +1,12 @@
 import * as THREE from 'three';
 import { createPolygonTool } from '../Tools/CreatePolygonTool.js';
 
+/**
+ * Setup ground plane with texture
+ * @param {THREE.Scene} scene
+ * @param {THREE.Texture} texture
+ * @returns {THREE.Mesh} ground plane
+ */
 export async function setupGroundPlane(scene, texture) {
   // Lights
   const dirLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -20,6 +26,13 @@ export async function setupGroundPlane(scene, texture) {
   scene.add(ground);
   return ground;
 }
+/**
+ * Setup tools for the scene
+ * @param {THREE.Scene} mainScene
+ * @param {THREE.Camera} camera
+ * @param {THREE.Renderer} renderer
+ * @param {THREE.Mesh} groundPlane
+ */
 export function setupTools(mainScene, camera, renderer, groundPlane) {
       document.getElementById('create-tool').addEventListener('click', () => {
         createPolygonTool(mainScene, camera, renderer, groundPlane).enable();

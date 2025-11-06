@@ -1,6 +1,6 @@
 import { createRenderer } from './renderer.js';
 import { setupGroundPlane, setupTools } from './Utils/SceneUtils.js';
-import { setupEventHandlers } from './Utils/PageHandler.js';
+import { setupEventHandlers, setupGoogleMaps } from './Utils/PageHandler.js';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { loadMapTexture } from './Loaders/TextureLoader.js';
@@ -8,35 +8,20 @@ import { API_KEY } from './config.js';
 
 const uploadContainer = document.getElementById('upload-container');
 const loader = document.getElementById('loader');
-const fileInput = document.getElementById('fileInput');
+const loadButton = document.getElementById('load-button');
 const toolsUI = document.getElementById('tools-menu');
-let map;
-let mapLocation = {
-    lat: -34.02607768084851,
-    lng:150.84073423804892,
-    zoom: 21
-};
-async function initMap() {
-    const { Map } = await google.maps.importLibrary("maps");
-    map = new Map(document.getElementById("map"), {
-        center: {
-            lat: -34.02607768084851, lng:
-                150.84073423804892
-        },
-        mapTypeId: 'satellite',
-        zoom: 21,
-    });
-    map.addListener("center_changed", () => {
-        const center = map.getCenter();
-        mapLocation = { lat: center.lat(), lng: center.lng(), zoom: map.getZoom() };
-    });
 
-}
-initMap();
-setupEventHandlers(fileInput, uploadContainer, loader, startScene);
+// Setup Google Maps and get location function
+const getMapLocation = setupGoogleMaps();
+
+// Setup event handlers to manage UI
+setupEventHandlers(loadButton, uploadContainer, loader, startScene);
+
+// Main function to start the 3D scene
 async function startScene() {
+    // Show loader
     loader.style.display = 'flex';
-
+    const mapLocation = getMapLocation();
     // Create renderer
     const renderer = createRenderer();
     document.body.appendChild(renderer.domElement);
@@ -49,8 +34,8 @@ async function startScene() {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0, 0);
     controls.update();
-    console.log(mapLocation);
 
+    // Load map texture
     const texture = await loadMapTexture({
         centerLatLng: mapLocation.lat + ',' + mapLocation.lng,
         zoom: mapLocation.zoom,
@@ -59,10 +44,13 @@ async function startScene() {
         apiKey: API_KEY,
         loaderElement: loader
     });
+
     // Create scene
     const mainScene = new THREE.Scene();
+
     // Build scene
     const groundPlane = await setupGroundPlane(mainScene, texture);
+
     // Setup tools
     toolsUI.style.display = 'flex';
     setupTools(mainScene, camera, renderer, groundPlane);

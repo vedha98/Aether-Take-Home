@@ -1,4 +1,8 @@
-
+/**
+ * Prompt user for building height via an info box
+ * @param {function(number)} onSubmit - Callback for valid height submission
+ * @param {function(string)} onCancel - Callback for cancellation or invalid input
+ */
 export function getHeightFromInfoBox(onSubmit, onCancel) {
   document.getElementById('create-building-infobox').style.display = 'flex';
   const input = document.getElementById('building-height-input');
