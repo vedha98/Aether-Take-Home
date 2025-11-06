@@ -15,10 +15,14 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
     const points = [];
     let line = null;
     let startPoint = null;
+    let altPressed = false;
+    let ctrlPressed = false;
+    let pressStartTime;
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const dotGroup = new THREE.Group();
     function onMouseMove(event) {
+        if (altPressed || ctrlPressed) return;
         // Convert mouse to normalized device coordinates
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -66,6 +70,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
 
     }
     function onClick(event) {
+        if (altPressed || ctrlPressed) return; // ignore clicks when alt or ctrl is pressed
         raycaster.setFromCamera(mouse, camera);
         const intersection = raycaster.intersectObject(groundPlane);
         if (intersection.length < 1) return; // No intersection
@@ -105,17 +110,21 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         line = null;
     }
     function enable() {
-        renderer.domElement.addEventListener('click', onClick);
+        renderer.domElement.addEventListener('mousedown', onMouseDown);
+        renderer.domElement.addEventListener('mouseup', onMouseUp);
         renderer.domElement.addEventListener('mousemove', onMouseMove);
         window.addEventListener('keydown', onKeyDown);
+        window.addEventListener('keyup', onkeyup);
         document.body.style.cursor = "crosshair";
         document.getElementById("create-tool").setAttribute("disabled", "true");
     }
 
     function disable() {
-        renderer.domElement.removeEventListener('click', onClick);
+        renderer.domElement.removeEventListener('mousedown', onMouseDown);
+        renderer.domElement.removeEventListener('mouseup', onMouseUp);
         renderer.domElement.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('keyup', onkeyup);
         document.body.style.cursor = "default";
         document.getElementById("create-tool").removeAttribute("disabled");
     }
@@ -125,6 +134,30 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         if (event.key === 'Escape') { // cancel
             disable();
             clearCache();
+        }
+        if (event.key === 'Alt') {
+            altPressed = true;
+        }
+        if (event.key === 'Control') {
+            ctrlPressed = true;
+        }
+    }
+    function onkeyup(event) {
+        if (event.key === 'Alt') {
+            altPressed = false;
+        }
+        if (event.key === 'Control') {
+            ctrlPressed = false;
+        }
+    }
+
+    function onMouseDown(event) {
+        pressStartTime = performance.now();
+    }
+    function onMouseUp(event) {
+        const pressDuration = performance.now() - pressStartTime;
+        if (pressDuration < 200) {
+            onClick(event);
         }
     }
 
