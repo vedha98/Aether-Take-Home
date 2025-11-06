@@ -20,9 +20,15 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
     let altPressed = false;
     let ctrlPressed = false;
     let pressStartTime;
+    const endTolerance = 0.2;
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const dotGroup = new THREE.Group();
+    const closeDot = new THREE.Mesh(
+        new THREE.SphereGeometry(endTolerance, 16, 16),
+        new THREE.MeshBasicMaterial({ color: "white", opacity: 0.4, depthTest: false, transparent: true })
+    );
+    closeDot.renderOrder = 1000;
     function onMouseMove(event) {
         if (altPressed || ctrlPressed) return;
         // Convert mouse to normalized device coordinates
@@ -34,6 +40,13 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         if (intersection.length < 1) return; // No intersection
 
         const hoverPoint = intersection[0].point.clone();
+        if(hoverPoint.distanceTo(startPoint) < endTolerance && points.length > 2) {
+            closeDot.position.copy(startPoint);
+            hoverPoint.copy(startPoint);
+            scene.add(closeDot);
+        }else{
+            scene.remove(closeDot);
+        }
         if (line) {
             scene.remove(line);
             scene.remove(dotGroup);
@@ -82,7 +95,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
             startPoint = intersection[0].point.clone();
         } else if (points.length > 2) {
             const distToStart = intersection[0].point.distanceTo(startPoint);
-            if (distToStart < 0.5) {
+            if (distToStart < endTolerance) {
                 return finishPolygon();
             }
         }
@@ -107,6 +120,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
             scene.remove(dotGroup);
             dotGroup.clear();
         }
+        scene.remove(closeDot);
         points.length = 0;
         line = null;
     }
