@@ -40,7 +40,7 @@ export function createMousePositionLabel(camera, renderer, plane = new THREE.Pla
   return { enable, disable, element: label };
 }
 
-export function askForHeight(onSubmit) {
+export function askForHeight(onSubmit, onCancel) {
   const input = document.createElement('input');
   input.type = 'number';
   input.min = '0';
@@ -67,11 +67,15 @@ export function askForHeight(onSubmit) {
       const val = parseFloat(input.value);
       document.body.removeChild(input);
       window.removeEventListener('keydown', handleKey);
-      if (!isNaN(val) && val > 0) onSubmit(val);
-      else alert('Invalid height');
+      if (!isNaN(val) && val >= 0) {
+        onSubmit(val);
+      } else {
+        onCancel('invalid input');
+      }
     } else if (e.key === 'Escape') {
       document.body.removeChild(input);
       window.removeEventListener('keydown', handleKey);
+      onCancel("escaped");
     }
   }
 

@@ -28,7 +28,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         if (intersection.length < 1) return; // No intersection
 
         const hoverPoint = intersection[0].point.clone();
-        if (line){
+        if (line) {
             scene.remove(line);
             scene.remove(dotGroup);
             dotGroup.clear();
@@ -54,7 +54,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
             scene.add(line);
             points.forEach(point => {
                 const dotGeometry = new THREE.SphereGeometry(0.07, 16, 16);
-                const dotMaterial = new THREE.MeshBasicMaterial({ color: "##f9f9f9", opacity: 1, depthTest: false, transparent: true });
+                const dotMaterial = new THREE.MeshBasicMaterial({ color: "#f9f9f9", opacity: 1, depthTest: false, transparent: true });
                 const dotMesh = new THREE.Mesh(dotGeometry, dotMaterial);
                 dotMesh.position.copy(point);
                 dotMesh.renderOrder = 999;
@@ -84,43 +84,47 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
 
     function finishPolygon() {
         if (points.length < 3) return alert("Need at least 3 points to create a polygon!");
+        disable();
         askForHeight(async (height) => {
             const buildingMesh = createBuildingGeometry(points, height, groundPlane);
             scene.add(buildingMesh);
-            if (line){
+            clearCache();
+        }, err => {
+            console.log(err);
+            clearCache();
+        }
+        );
+    }
+    function clearCache() {
+        if (line) {
             scene.remove(line);
             scene.remove(dotGroup);
             dotGroup.clear();
         }
         points.length = 0;
         line = null;
-        })
-        // Clear temp line and points
-        
-        disable();
     }
-
     function enable() {
         renderer.domElement.addEventListener('click', onClick);
         renderer.domElement.addEventListener('mousemove', onMouseMove);
         window.addEventListener('keydown', onKeyDown);
         document.body.style.cursor = "crosshair";
+        document.getElementById("create-tool").setAttribute("disabled", "true");
     }
 
     function disable() {
         renderer.domElement.removeEventListener('click', onClick);
         renderer.domElement.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('keydown', onKeyDown);
-        document.body.style.cursor = "pointer";
-
+        document.body.style.cursor = "default";
+        document.getElementById("create-tool").removeAttribute("disabled");
     }
 
     function onKeyDown(event) {
         if (event.key === 'Enter') finishPolygon(); // press Enter to finish
         if (event.key === 'Escape') { // cancel
-            if (line) scene.remove(line);
-            points.length = 0;
-            line = null;
+            disable();
+            clearCache();
         }
     }
 

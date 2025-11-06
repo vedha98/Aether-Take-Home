@@ -205,6 +205,12 @@ canvas {
   height: 20px;
   fill: var(--white);
 }
+#tools-menu button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+  transform: none;
+}
 #mouse-position-label {
   position: absolute;
   padding: 4px 8px;
