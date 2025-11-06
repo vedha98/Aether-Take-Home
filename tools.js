@@ -3,6 +3,7 @@ import { createBuildingGeometry } from './objectsCreator.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 import { Line2 } from 'three/addons/lines/Line2.js';
+import { askForHeight } from './UIManager.js';
 
 /**
  * Polygon drawing tool
@@ -62,7 +63,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
 
             scene.add(dotGroup);
         }
-        
+
     }
     function onClick(event) {
         raycaster.setFromCamera(mouse, camera);
@@ -83,19 +84,19 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
 
     function finishPolygon() {
         if (points.length < 3) return alert("Need at least 3 points to create a polygon!");
-
-        const buildingMesh = createBuildingGeometry(points, 5, groundPlane);
-
-        scene.add(buildingMesh);
-
-        // Clear temp line and points
-        if (line){
+        askForHeight(async (height) => {
+            const buildingMesh = createBuildingGeometry(points, height, groundPlane);
+            scene.add(buildingMesh);
+            if (line){
             scene.remove(line);
             scene.remove(dotGroup);
             dotGroup.clear();
         }
         points.length = 0;
         line = null;
+        })
+        // Clear temp line and points
+        
         disable();
     }
 
