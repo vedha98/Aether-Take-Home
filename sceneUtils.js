@@ -13,7 +13,7 @@ export async function setupGroundPlane(scene, texture) {
   // Ground
   const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(20, 20),
-    new THREE.MeshBasicMaterial({ map: texture })
+    new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide})
   );
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
