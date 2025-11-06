@@ -200,28 +200,85 @@ canvas {
   transform: scale(.98);
   transition: .25s;
 }
+
 #tools-icon {
   width: 20px;
   height: 20px;
   fill: var(--white);
 }
+
 #tools-menu button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
   box-shadow: none;
   transform: none;
 }
-#mouse-position-label {
+
+#create-building-infobox {
   position: absolute;
-  padding: 4px 8px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #0f0;
-  font-family: monospace;
-  font-size: 10px;
-  pointer-events: none;
-  border-radius: 4px;
-  transform: translate(20%, 10%);
+  top: 50%;
+  left: 60%;
+  z-index: 20;
+  padding: 15px;
+  background-color: var(--white);
+  border-radius: 12px;
   display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.building-input {
+  width: 50px;
+  height: 30px;
+  margin: 5px;
+
+  padding: 5px;
+  font-size: 13px;
+  letter-spacing: .15px;
+  text-align: center;
+  border: none;
+  outline: none;
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--neu-1);
+  transition: .25s ease;
+  border-radius: 8px;
+  box-shadow:
+    inset 2px 2px 4px var(--neu-2),
+    inset -2px -2px 4px var(--white);
+}
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.info-title {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+.info-label {
+  font-size: 14px;
+  color: var(--black);
+  margin-right: 10px;
+}
+.info-button {
+  width: 100px;
+  height: 35px;
+  font-size: 13px;
+  border-radius: 20px;
+  background-color: var(--purple);
+  color: var(--white);
+  box-shadow:
+    6px 6px 10px var(--neu-2),
+    -6px -6px 10px var(--white);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 @keyframes spin {
@@ -232,4 +289,11 @@ canvas {
   100% {
     transform: rotate(360deg);
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createPolygonTool } from './tools.js';
+import { createPolygonTool } from '../Tools/CreatePolygonTool.js';
 
 export async function setupGroundPlane(scene, texture) {
   // Lights

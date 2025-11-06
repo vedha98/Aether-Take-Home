@@ -1,9 +1,9 @@
 import { createRenderer } from './renderer.js';
-import { setupGroundPlane, setupTools } from './sceneUtils.js';
-import { setupEventHandlers } from './eventHandlers.js';
+import { setupGroundPlane, setupTools } from './Utils/SceneUtils.js';
+import { setupEventHandlers } from './Utils/PageHandler.js';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { loadMapTexture } from './textureLoader.js';
+import { loadMapTexture } from './Loaders/TextureLoader.js';
 import { API_KEY } from './config.js';
 
 const uploadContainer = document.getElementById('upload-container');

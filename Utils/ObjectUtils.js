@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { ConvexGeometry } from 'three/addons/geometries/ConvexGeometry.js';
 export function createBuildingGeometry(points, height, groundPlane) {
     let building = new THREE.Group();
     let vertices = [];
@@ -22,14 +21,15 @@ export function createBuildingGeometry(points, height, groundPlane) {
         geometry,
         new THREE.MeshBasicMaterial({
             color: "#6b6b6b",
-            opacity: 1
+            opacity: 1,
+            side: THREE.DoubleSide
         })
     );
     buildingMesh.rotation.x = Math.PI / 2;
     buildingMesh.position.y = 0.001;
     const groundSize = 20;
     const topVertices = points.map(p => new THREE.Vector3(p.x, height + 0.001, p.z));
-    const topGeometry = new THREE.ShapeGeometry(new THREE.Shape(topVertices.map(v => new THREE.Vector2(v.x, v.z))));
+    const topGeometry = new THREE.ShapeGeometry(new THREE.Shape(topVertices.map(v => new THREE.Vector2(v.x, v.z)), 100));
     topGeometry.attributes.position.array.forEach((val, i) => {
         if (i % 3 === 0) {
             // x coordinate
@@ -43,12 +43,12 @@ export function createBuildingGeometry(points, height, groundPlane) {
         }
     });
     topGeometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-    // topGeometry.computeVertexNormals();
+    topGeometry.computeVertexNormals();
     const topMesh = new THREE.Mesh(
         topGeometry,
         new THREE.MeshBasicMaterial({ map: topTexture, side: THREE.DoubleSide })
     );
-    topMesh.position.y = height + 0.002;
+    topMesh.position.y = height + 0.003;
     topMesh.rotation.x = Math.PI / 2;
     
     building.add(topMesh);

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { createBuildingGeometry } from './objectsCreator.js';
+import { createBuildingGeometry } from '../Utils/ObjectUtils.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 import { Line2 } from 'three/addons/lines/Line2.js';
-import { askForHeight } from './UIManager.js';
+import { askForHeight } from '../Utils/InterfaceUItils.js';
 
 /**
  * Polygon drawing tool
