@@ -6,6 +6,7 @@
 export function getHeightFromInfoBox(onSubmit, onCancel) {
   document.getElementById('create-building-infobox').style.display = 'flex';
   const input = document.getElementById('building-height-input');
+  input.value = 20;
   input.focus();
   const button = document.getElementById('building-info-button');
   function handleKey(e) {
