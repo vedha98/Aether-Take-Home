@@ -10,6 +10,15 @@ const uploadContainer = document.getElementById('upload-container');
 const loader = document.getElementById('loader');
 const fileInput = document.getElementById('fileInput');
 const toolsUI = document.getElementById('tools-menu');
+let map;
+async function initMap() {
+    const { Map } = await google.maps.importLibrary("maps");
+    map = new Map(document.getElementById("map"), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+    });
+}
+initMap();
 setupEventHandlers(fileInput, uploadContainer, loader, startScene);
 let currentTool = null;
 async function startScene() {

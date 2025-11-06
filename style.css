@@ -40,18 +40,14 @@ body {
   justify-content: center;
   align-items: center;
   position: absolute;
-
-  top: 0;
   width: 600px;
-  height: 100%;
-  padding: 25px;
-
+  height: 600px;
   background-color: var(--neu-1);
 }
 
 .right-container {
   z-index: 100;
-  left: calc(100% - 600px);
+  left: calc(100% - 625px);
 }
 
 .button {
@@ -91,8 +87,6 @@ body {
   left: 0;
   height: 100%;
   width: 400px;
-
-  padding: 50px;
   z-index: 200;
 
   background-color: var(--neu-1);
@@ -103,7 +97,10 @@ body {
     4px 4px 10px var(--neu-2),
     -4px -4px 10px var(--white);
 }
-
+#map {
+  height: 100%;
+  width: 100%;
+}
 #upload-container,
 #loader {
   position: absolute;
