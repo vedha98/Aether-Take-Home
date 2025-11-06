@@ -5,12 +5,12 @@ export async function loadMapTexture({ centerLatLng, zoom, sizePx, mapType, apiK
         + `&zoom=${zoom}&size=${sizePx}x${sizePx}`
         + `&maptype=${mapType}&key=${apiKey}`;
     try {
-        loaderElement.textContent = 'Loading map texture…';
+        document.getElementById("loader-text").textContent = 'Loading map texture…';
         const texture = await new THREE.TextureLoader().loadAsync(url);
         loaderElement.style.display = 'none';
         return texture;
     } catch (err) {
-        loaderElement.textContent = 'Error loading map texture!';
+        document.getElementById("loader-text").textContent = 'Error loading map texture!';
         console.error(err);
         throw err;
     }

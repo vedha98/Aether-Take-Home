@@ -42,7 +42,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
                 geometry,
                 new LineMaterial(
                     {
-                        color: '#7ea8a6',
+                        color: '#f9f9f9',
                         linewidth: 5,
                         opacity: 0.8,
                         alphaToCoverage: false,
@@ -54,7 +54,7 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
             scene.add(line);
             points.forEach(point => {
                 const dotGeometry = new THREE.SphereGeometry(0.07, 16, 16);
-                const dotMaterial = new THREE.MeshBasicMaterial({ color: "#ebbd34", opacity: 1, depthTest: false, transparent: true });
+                const dotMaterial = new THREE.MeshBasicMaterial({ color: "##f9f9f9", opacity: 1, depthTest: false, transparent: true });
                 const dotMesh = new THREE.Mesh(dotGeometry, dotMaterial);
                 dotMesh.position.copy(point);
                 dotMesh.renderOrder = 999;
@@ -104,12 +104,15 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         renderer.domElement.addEventListener('click', onClick);
         renderer.domElement.addEventListener('mousemove', onMouseMove);
         window.addEventListener('keydown', onKeyDown);
+        document.body.style.cursor = "crosshair";
     }
 
     function disable() {
         renderer.domElement.removeEventListener('click', onClick);
         renderer.domElement.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('keydown', onKeyDown);
+        document.body.style.cursor = "pointer";
+
     }
 
     function onKeyDown(event) {

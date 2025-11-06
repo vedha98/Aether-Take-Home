@@ -36,7 +36,7 @@ initMap();
 setupEventHandlers(fileInput, uploadContainer, loader, startScene);
 let currentTool = null;
 async function startScene() {
-    loader.style.display = 'block';
+    loader.style.display = 'flex';
 
     // Create renderer
     const renderer = createRenderer();

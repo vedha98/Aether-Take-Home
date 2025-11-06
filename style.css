@@ -131,9 +131,26 @@ body {
 
 #loader {
   display: none;
+  flex-direction: column;
   font-size: 1.5em;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
   color: var(--black);
   background-color: var(--white);
+}
+
+#loader-icon {
+  animation: spin 2s linear infinite;
+  margin-bottom: 15px;
+  fill: var(--purple);
+}
+
+#loader-text {
+  font-size: 14px;
+  letter-spacing: .25px;
+  text-align: center;
 }
 
 canvas {
@@ -147,7 +164,7 @@ canvas {
   height: 150px;
   padding: 20px 2px;
   width: 50px;
-  display: flex;
+  display: none;
   text-align: center;
   align-items: center;
   flex-direction: column;
@@ -175,6 +192,7 @@ canvas {
     1px 1px 3px var(--neu-2),
     -1px -1px 3px var(--white);
 }
+
 #tools-menu button:hover {
   box-shadow:
     0.5px 0.5px 1px var(--neu-2),
@@ -182,7 +200,11 @@ canvas {
   transform: scale(.98);
   transition: .25s;
 }
-
+#tools-icon {
+  width: 20px;
+  height: 20px;
+  fill: var(--white);
+}
 #mouse-position-label {
   position: absolute;
   padding: 4px 8px;
@@ -194,4 +216,14 @@ canvas {
   border-radius: 4px;
   transform: translate(20%, 10%);
   display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
