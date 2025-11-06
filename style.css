@@ -20,6 +20,20 @@ body {
   color: var(--gray);
 }
 
+.title {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 3;
+  color: var(--black);
+}
+
+.description {
+  font-size: 14px;
+  letter-spacing: .25px;
+  text-align: center;
+  line-height: 1.6;
+}
+
 .main {
   position: relative;
   width: 1000px;
@@ -83,12 +97,13 @@ body {
   justify-content: center;
   align-items: center;
   position: absolute;
+  flex-direction: column;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 400px;
+  height: 550px;
+  width: 300px;
   z-index: 200;
-
+  padding: 50px;
   background-color: var(--neu-1);
   overflow: hidden;
 
@@ -97,10 +112,12 @@ body {
     4px 4px 10px var(--neu-2),
     -4px -4px 10px var(--white);
 }
+
 #map {
   height: 100%;
   width: 100%;
 }
+
 #upload-container,
 #loader {
   position: absolute;
@@ -110,14 +127,11 @@ body {
   text-align: center;
 }
 
-#fileInput {
-  margin-top: 10px;
-}
-
 #loader {
   display: none;
   font-size: 1.5em;
-  color: #0f0;
+  color: var(--black);
+  background-color: var(--white);
 }
 
 canvas {

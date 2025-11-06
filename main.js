@@ -11,12 +11,26 @@ const loader = document.getElementById('loader');
 const fileInput = document.getElementById('fileInput');
 const toolsUI = document.getElementById('tools-menu');
 let map;
+let mapLocation = {
+    lat: -34.02607768084851,
+    lng:150.84073423804892,
+    zoom: 21
+};
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     map = new Map(document.getElementById("map"), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8,
+        center: {
+            lat: -34.02607768084851, lng:
+                150.84073423804892
+        },
+        mapTypeId: 'satellite',
+        zoom: 21,
     });
+    map.addListener("center_changed", () => {
+        const center = map.getCenter();
+        mapLocation = { lat: center.lat(), lng: center.lng(), zoom: map.getZoom() };
+    });
+
 }
 initMap();
 setupEventHandlers(fileInput, uploadContainer, loader, startScene);
@@ -36,9 +50,11 @@ async function startScene() {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0, 0);
     controls.update();
+    console.log(mapLocation);
+
     const texture = await loadMapTexture({
-        centerLatLng: "Bengaluru,India",
-        zoom: 20,
+        centerLatLng: mapLocation.lat + ',' + mapLocation.lng,
+        zoom: mapLocation.zoom,
         sizePx: 1024,
         mapType: "satellite",
         apiKey: API_KEY,
