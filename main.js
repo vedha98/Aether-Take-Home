@@ -34,7 +34,6 @@ async function initMap() {
 }
 initMap();
 setupEventHandlers(fileInput, uploadContainer, loader, startScene);
-let currentTool = null;
 async function startScene() {
     loader.style.display = 'flex';
 
@@ -66,7 +65,7 @@ async function startScene() {
     const groundPlane = await setupGroundPlane(mainScene, texture);
     // Setup tools
     toolsUI.style.display = 'flex';
-    setupTools(mainScene, camera, renderer, currentTool, groundPlane);
+    setupTools(mainScene, camera, renderer, groundPlane);
 
     function animate() {
         requestAnimationFrame(animate);

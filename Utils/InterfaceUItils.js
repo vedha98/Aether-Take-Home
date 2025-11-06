@@ -1,5 +1,5 @@
 
-export function askForHeight(onSubmit, onCancel) {
+export function getHeightFromInfoBox(onSubmit, onCancel) {
   document.getElementById('create-building-infobox').style.display = 'flex';
   const input = document.getElementById('building-height-input');
   input.focus();
@@ -8,7 +8,7 @@ export function askForHeight(onSubmit, onCancel) {
     if (e.key === 'Enter') {
       handleClick();
     } else if (e.key === 'Escape') {
-      document.body.removeChild(input);
+      document.getElementById('create-building-infobox').style.display = 'none';
       window.removeEventListener('keydown', handleKey);
       button.removeEventListener('click', handleClick);
       onCancel("escaped");

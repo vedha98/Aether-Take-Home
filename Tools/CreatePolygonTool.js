@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { createBuildingGeometry } from '../Utils/ObjectUtils.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 import { Line2 } from 'three/addons/lines/Line2.js';
-import { askForHeight } from '../Utils/InterfaceUItils.js';
+import { getHeightFromInfoBox } from '../Utils/InterfaceUItils.js';
+import { Building } from '../Geometry/Building.js';
 
 /**
  * Polygon drawing tool
@@ -90,9 +90,8 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
     function finishPolygon() {
         if (points.length < 3) return alert("Need at least 3 points to create a polygon!");
         disable();
-        askForHeight(async (height) => {
-            const buildingMesh = createBuildingGeometry(points, height, groundPlane);
-            scene.add(buildingMesh);
+        getHeightFromInfoBox(async (height) => {
+            new Building(scene, groundPlane, height, points).addToScene();
             clearCache();
         }, err => {
             console.log(err);

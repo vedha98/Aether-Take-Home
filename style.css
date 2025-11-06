@@ -212,6 +212,7 @@ canvas {
   opacity: 0.6;
   box-shadow: none;
   transform: none;
+  background-color: var(--purple);
 }
 
 #create-building-infobox {
