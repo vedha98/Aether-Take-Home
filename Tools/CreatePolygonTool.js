@@ -24,9 +24,10 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const dotGroup = new THREE.Group();
-    const closeDot = new THREE.Mesh(
-        new THREE.SphereGeometry(endTolerance, 16, 16),
-        new THREE.MeshBasicMaterial({ color: "white", opacity: 0.4, depthTest: false, transparent: true })
+    const dotTexture = new THREE.TextureLoader().load('https://threejs.org/examples/textures/sprites/disc.png');
+    const closeDot = new THREE.Points(
+        new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0)]),
+        new THREE.PointsMaterial({ color: "white", size: 25, opacity: 0.4, sizeAttenuation: false, depthTest: false, transparent: true, map: dotTexture })
     );
     closeDot.renderOrder = 1000;
     function onMouseMove(event) {
@@ -40,11 +41,11 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
         if (intersection.length < 1) return; // No intersection
 
         const hoverPoint = intersection[0].point.clone();
-        if(hoverPoint.distanceTo(startPoint) < endTolerance && points.length > 2) {
+        if (hoverPoint.distanceTo(startPoint) < endTolerance && points.length > 2) {
             closeDot.position.copy(startPoint);
             hoverPoint.copy(startPoint);
             scene.add(closeDot);
-        }else{
+        } else {
             scene.remove(closeDot);
         }
         if (line) {
@@ -71,14 +72,11 @@ export function createPolygonTool(scene, camera, renderer, groundPlane) {
                 ))
             line.computeLineDistances();
             scene.add(line);
-            points.forEach(point => {
-                const dotGeometry = new THREE.SphereGeometry(0.07, 16, 16);
-                const dotMaterial = new THREE.MeshBasicMaterial({ color: "#f9f9f9", opacity: 1, depthTest: false, transparent: true });
-                const dotMesh = new THREE.Mesh(dotGeometry, dotMaterial);
-                dotMesh.position.copy(point);
-                dotMesh.renderOrder = 999;
-                dotGroup.add(dotMesh);
-            });
+            let dotsGeometry = new THREE.BufferGeometry().setFromPoints(points);
+            dotGroup.add(new THREE.Points(
+                dotsGeometry,
+                new THREE.PointsMaterial({ color: "#f9f9f9", size: 10, opacity: 1, sizeAttenuation: false, depthTest: false, transparent: true, map: dotTexture })
+            ));
 
             scene.add(dotGroup);
         }

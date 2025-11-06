@@ -39,7 +39,7 @@ async function startScene() {
     const texture = await loadMapTexture({
         centerLatLng: mapLocation.lat + ',' + mapLocation.lng,
         zoom: mapLocation.zoom,
-        sizePx: 1024,
+        sizePx: 4096,
         mapType: "satellite",
         apiKey: API_KEY,
         loaderElement: loader
