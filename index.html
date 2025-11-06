@@ -19,7 +19,6 @@
   <div id="upload-container" class="main">
     <div class="container right-container">
       <div id="map"></div>
-
     <!-- prettier-ignore -->
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
         ({key: "AIzaSyCvdzfLuCKiO-fSoHet26hEGwtJHm0TttM", v: "weekly"});</script>
@@ -32,7 +31,8 @@
     
   </div>
 
-  <div id="loader"><svg id="loader-icon" width="20px" height="20px" 
+  <div id="loader">
+<svg id="loader-icon" width="20px" height="20px" 
 	 viewBox="0 0 512 512"  xml:space="preserve">
 <g>
 	<path class="st0" d="M256,0c-23.357,0-42.297,18.932-42.297,42.288c0,23.358,18.94,42.288,42.297,42.288
@@ -52,7 +52,8 @@
 	<path class="st0" d="M437.026,134.798c16.52-16.52,16.52-43.304,0-59.824c-16.519-16.511-43.304-16.52-59.823,0
 		c-16.52,16.52-16.503,43.295,0,59.815C393.722,151.309,420.507,151.309,437.026,134.798z"/>
 </g>
-</svg><div id="loader-text"></div></div>
+</svg><div id="loader-text"></div>
+  </div>
 
   <script type="module" src="./main.js"></script>
   <div id="tools-menu" class="tools-container">
@@ -60,14 +61,14 @@
   <button id="create-tool"><svg id="tools-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M20.1498 7.93997L8.27978 19.81C7.21978 20.88 4.04977 21.3699 3.32977 20.6599C2.60977 19.9499 3.11978 16.78 4.17978 15.71L16.0498 3.84C16.5979 3.31801 17.3283 3.03097 18.0851 3.04019C18.842 3.04942 19.5652 3.35418 20.1004 3.88938C20.6356 4.42457 20.9403 5.14781 20.9496 5.90463C20.9588 6.66146 20.6718 7.39189 20.1498 7.93997V7.93997Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg></button>
-</div>
-<div id="create-building-infobox">
+  </div>
+  <div id="create-building-infobox">
   <div class="info-title">Building Properties</div>
   <div class="input-container">
     <div class="info-label">Building Height (m)</div>
     <input type="number" min="0" max="999" value="10" name="build height" class="building-input" id="building-height-input"/>
   </div>
   <input class="info-button" type="button" id="building-info-button" value="Create"/>
-</div>
+  </div>
 </body>
 </html>
