@@ -19,9 +19,9 @@ export class Building {
         })
         // Create top shape
         points.forEach(pt => {
-            vertices.push(new THREE.Vector3(pt.x, pt.y + height, pt.z));
+            vertices.push(new THREE.Vector2(pt.x, pt.z));
         });
-        const geometry = new THREE.ExtrudeGeometry(new THREE.Shape(points.map(p => new THREE.Vector2(p.x, p.z))), {
+        const geometry = new THREE.ExtrudeGeometry(new THREE.Shape(points), {
             depth: -height,
             bevelEnabled: false,
             steps: 1
@@ -37,8 +37,7 @@ export class Building {
         buildingMesh.rotation.x = Math.PI / 2;
         buildingMesh.position.y = 0.001;
         const groundSize = 20;
-        const topVertices = points.map(p => new THREE.Vector3(p.x, height + 0.001, p.z));
-        const topGeometry = new THREE.ShapeGeometry(new THREE.Shape(topVertices.map(v => new THREE.Vector2(v.x, v.z)), 100));
+        const topGeometry = new THREE.ShapeGeometry(new THREE.Shape(points), 100);
         topGeometry.attributes.position.array.forEach((val, i) => {
             if (i % 3 === 0) {
                 // x coordinate
