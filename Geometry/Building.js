@@ -13,15 +13,11 @@ export class Building {
         let vertices = [];
         let uvs = [];
         const topTexture = groundPlane.material.map.clone();
-        // Create base shape
-        points.forEach(pt => {
-            vertices.push(new THREE.Vector3(pt.x, pt.y, pt.z));
-        })
-        // Create top shape
+        // Generate vertices from points
         points.forEach(pt => {
             vertices.push(new THREE.Vector2(pt.x, pt.z));
         });
-        const geometry = new THREE.ExtrudeGeometry(new THREE.Shape(points), {
+        const geometry = new THREE.ExtrudeGeometry(new THREE.Shape(vertices), {
             depth: -height,
             bevelEnabled: false,
             steps: 1
@@ -37,7 +33,7 @@ export class Building {
         buildingMesh.rotation.x = Math.PI / 2;
         buildingMesh.position.y = 0.001;
         const groundSize = 20;
-        const topGeometry = new THREE.ShapeGeometry(new THREE.Shape(points), 100);
+        const topGeometry = new THREE.ShapeGeometry(new THREE.Shape(vertices), 100);
         topGeometry.attributes.position.array.forEach((val, i) => {
             if (i % 3 === 0) {
                 // x coordinate
